@@ -11,8 +11,9 @@
 <link href="https://cdn.jsdelivr.net/fontsource/css/cormorant-garamond@latest/latin-400-italic.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-300-normal.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-400-normal.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-500-normal.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/great-vibes@latest/latin-400-normal.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@300;400;500;600&family=Noto+Sans+Armenian:wght@300;400;500&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
 <style>
 /* ============ RESET & BASE ============ */
@@ -35,8 +36,8 @@ a{color:inherit;text-decoration:none}
   --gold-soft:#b89968;
   --blush:#f0e2d0;
   --serif:'Cormorant Garamond', 'Noto Serif Armenian', Georgia, serif;
-  --sans:'Montserrat', system-ui, sans-serif;
-  --script:'Great Vibes', cursive;
+  --sans:'Montserrat', 'Noto Sans Armenian', system-ui, sans-serif;
+  --script:'Great Vibes', 'Cormorant Garamond', cursive;
 }
 
 body{
@@ -56,45 +57,35 @@ body{
 .script{font-family:var(--script);font-weight:400}
 .sans{font-family:var(--sans);font-weight:300;letter-spacing:.25em;text-transform:uppercase;font-size:.7rem}
 
-/* ============ LANGUAGE SWITCHER ============ */
-.lang-switch{
-  position:fixed;
-  top:24px;right:24px;
-  z-index:100;
-  display:flex;
-  background:rgba(250,246,240,.85);
-  backdrop-filter:blur(10px);
-  -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(201,169,110,.3);
-  border-radius:25px;
-  padding:3px;
-  box-shadow:0 4px 20px rgba(44,24,16,.08);
+/* ============ MULTI-LANGUAGE TOGGLE ============ */
+.lang-switch {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 150;
+  display: flex;
+  gap: 6px;
+  background: rgba(250, 246, 240, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 4px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(201, 169, 110, 0.3);
+  box-shadow: 0 4px 20px rgba(44, 24, 16, 0.08);
 }
-.lang-btn{
-  font-family:var(--sans);
-  font-size:.65rem;
-  letter-spacing:.15em;
-  padding:6px 14px;
-  border-radius:20px;
-  color:var(--warm-brown);
-  transition:all .3s ease;
+.lang-btn {
+  font-family: var(--sans);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: var(--soft-dark);
+  transition: all 0.3s ease;
 }
-.lang-btn.active{
-  background:var(--warm-brown);
-  color:var(--ivory);
+.lang-btn.active {
+  background: var(--warm-brown);
+  color: var(--ivory);
 }
-
-/* ============ MULTI-LANGUAGE TOGGLE DISPLAY ============ */
-[data-lang]{display:none!important}
-body.lang-en [data-lang="en"]{display:block!important}
-body.lang-en span[data-lang="en"],
-body.lang-en a[data-lang="en"],
-body.lang-en div[data-lang="en"]{display:inline-block!important}
-
-body.lang-am [data-lang="am"]{display:block!important}
-body.lang-am span[data-lang="am"],
-body.lang-am a[data-lang="am"],
-body.lang-am div[data-lang="am"]{display:inline-block!important}
 
 /* ============ MUSIC BUTTON ============ */
 .music-btn{
@@ -294,6 +285,12 @@ section{position:relative}
 .reveal-mask{clip-path:inset(100% 0 0 0);transition:clip-path 1.5s cubic-bezier(.77,0,.175,1)}
 .reveal-mask.in{clip-path:inset(0 0 0 0)}
 
+@media(prefers-reduced-motion:reduce){
+  .reveal,.reveal-img{opacity:1;transform:none;transition:none}
+  .reveal-mask{clip-path:none;transition:none}
+  .hero-bg{animation:none}
+}
+
 /* ============ INTRO ============ */
 .intro{
   background:var(--ivory);
@@ -310,6 +307,7 @@ section{position:relative}
   color:var(--soft-dark);
   letter-spacing:.01em;
 }
+.intro-text em{font-style:italic;color:var(--warm-brown)}
 .intro-names{
   margin-top:50px;
   font-family:var(--script);
@@ -331,6 +329,16 @@ section{position:relative}
   background-position:center;
   will-change:transform;
 }
+.cinematic::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,
+    rgba(44,24,16,.15) 0%,
+    transparent 40%,
+    transparent 60%,
+    rgba(44,24,16,.2) 100%);
+  pointer-events:none;
+}
 
 /* ============ SAVE THE DATE ============ */
 .save-date{
@@ -338,6 +346,14 @@ section{position:relative}
   text-align:center;
   position:relative;
   overflow:hidden;
+}
+.save-date::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-50%;
+  width:200%;height:200%;
+  background:radial-gradient(circle, rgba(201,169,110,.08) 0%, transparent 60%);
+  pointer-events:none;
 }
 .date-block{position:relative;z-index:1}
 .date-label{
@@ -384,6 +400,14 @@ section{position:relative}
   position:relative;
   overflow:hidden;
 }
+.countdown::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(201,169,110,.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(201,169,110,.1) 0%, transparent 50%);
+  pointer-events:none;
+}
 .countdown .section-label{color:var(--champagne)}
 .countdown .section-title{color:var(--ivory)}
 .countdown-grid{
@@ -418,6 +442,17 @@ section{position:relative}
   color:rgba(250,246,240,.6);
   margin-top:12px;
 }
+.countdown-ended{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:clamp(1.5rem, 4vw, 2rem);
+  color:var(--champagne);
+  text-align:center;
+}
+@media(max-width:480px){
+  .countdown-grid{gap:10px}
+  .cd-box{padding:20px 5px}
+}
 
 /* ============ OUR STORY ============ */
 .story{background:var(--ivory)}
@@ -440,6 +475,14 @@ section{position:relative}
   width:100%;height:100%;
   object-fit:cover;
   transition:transform 1.5s ease;
+}
+.story-img-wrap:hover img{transform:scale(1.04)}
+.story-img-wrap::after{
+  content:'';
+  position:absolute;inset:0;
+  border:1px solid rgba(201,169,110,.3);
+  pointer-events:none;
+  margin:15px;
 }
 .story-text{
   font-family:var(--serif);
@@ -520,6 +563,12 @@ section{position:relative}
   line-height:1.6;
   margin-bottom:25px;
 }
+.detail-map{
+  width:100%;
+  height:220px;
+  margin:20px 0;
+  border:1px solid rgba(201,169,110,.3);
+}
 .map-btn{
   display:inline-block;
   padding:12px 30px;
@@ -564,6 +613,7 @@ section{position:relative}
   margin-bottom:50px;
   position:relative;
 }
+.tl-item:last-child{margin-bottom:0}
 .tl-time{
   font-family:var(--serif);
   font-weight:300;
@@ -594,6 +644,21 @@ section{position:relative}
   font-size:.7rem;
   color:var(--dark);
 }
+@media(max-width:600px){
+  .timeline::before{left:20px}
+  .tl-item{
+    grid-template-columns:40px 1fr;
+    gap:20px;
+  }
+  .tl-time{
+    grid-column:1/3;
+    text-align:left;
+    font-size:1.2rem;
+    margin-bottom:-10px;
+  }
+  .tl-dot{grid-column:1;justify-self:center}
+  .tl-text{grid-column:2;text-align:left}
+}
 
 /* ============ DRESS CODE ============ */
 .dresscode{background:var(--cream);text-align:center}
@@ -607,6 +672,153 @@ section{position:relative}
   color:var(--soft-dark);
   line-height:1.7;
 }
+.color-swatches{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.swatch{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+}
+.swatch-circle{
+  width:55px;height:55px;
+  border-radius:50%;
+  border:1px solid rgba(44,24,16,.1);
+  box-shadow:0 4px 15px rgba(44,24,16,.08);
+  transition:transform .4s ease;
+}
+.swatch-circle:hover{transform:scale(1.1)}
+.swatch-label{
+  font-family:var(--sans);
+  font-weight:300;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  font-size:.6rem;
+  color:var(--warm-brown);
+}
+
+/* ============ GALLERY ============ */
+.gallery{background:var(--ivory)}
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(6, 1fr);
+  grid-auto-rows:120px;
+  gap:15px;
+  max-width:1200px;
+  margin:0 auto;
+}
+.gal-item{
+  overflow:hidden;
+  position:relative;
+  cursor:pointer;
+}
+.gal-item img{
+  width:100%;height:100%;
+  object-fit:cover;
+  transition:transform 1.2s ease;
+}
+.gal-item:hover img{transform:scale(1.06)}
+.gal-item::after{
+  content:'';
+  position:absolute;inset:0;
+  background:rgba(44,24,16,0);
+  transition:background .4s ease;
+}
+.gal-item:hover::after{background:rgba(44,24,16,.15)}
+
+.gal-1{grid-column:span 3;grid-row:span 4}
+.gal-2{grid-column:span 3;grid-row:span 2}
+.gal-3{grid-column:span 2;grid-row:span 2}
+.gal-4{grid-column:span 4;grid-row:span 2}
+.gal-5{grid-column:span 2;grid-row:span 3}
+.gal-6{grid-column:span 4;grid-row:span 3}
+
+@media(max-width:768px){
+  .gallery-grid{
+    grid-template-columns:repeat(2, 1fr);
+    grid-auto-rows:180px;
+    gap:10px;
+  }
+  .gal-1,.gal-2,.gal-3,.gal-4,.gal-5,.gal-6{
+    grid-column:span 1;
+    grid-row:span 2;
+  }
+  .gal-1{grid-column:span 2;grid-row:span 3}
+}
+
+/* ============ LIGHTBOX ============ */
+.lightbox{
+  position:fixed;inset:0;
+  background:rgba(10,5,2,.95);
+  z-index:200;
+  display:none;
+  align-items:center;justify-content:center;
+  padding:20px;
+  opacity:0;
+  transition:opacity .4s ease;
+}
+.lightbox.open{display:flex;opacity:1}
+.lightbox img{
+  max-width:100%;
+  max-height:90vh;
+  object-fit:contain;
+}
+.lightbox-close{
+  position:absolute;
+  top:20px;right:20px;
+  width:44px;height:44px;
+  color:var(--ivory);
+  font-size:1.5rem;
+  display:flex;align-items:center;justify-content:center;
+}
+
+/* ============ QUOTE ============ */
+.quote{
+  background:linear-gradient(180deg, var(--soft-dark) 0%, var(--dark) 100%);
+  color:var(--ivory);
+  text-align:center;
+  padding:140px 24px;
+  position:relative;
+  overflow:hidden;
+}
+.quote::before{
+  content:'“';
+  position:absolute;
+  top:40px;left:50%;
+  transform:translateX(-50%);
+  font-family:var(--serif);
+  font-size:10rem;
+  color:rgba(201,169,110,.15);
+  line-height:1;
+  pointer-events:none;
+}
+.quote-text{
+  font-family:var(--serif);
+  font-weight:300;
+  font-style:italic;
+  font-size:clamp(1.4rem, 4vw, 2.2rem);
+  line-height:1.6;
+  max-width:700px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+  color:var(--champagne);
+}
+.quote-author{
+  margin-top:40px;
+  font-family:var(--sans);
+  font-weight:300;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  font-size:.65rem;
+  color:rgba(250,246,240,.6);
+  position:relative;
+  z-index:1;
+}
 
 /* ============ RSVP ============ */
 .rsvp{
@@ -614,6 +826,14 @@ section{position:relative}
   color:var(--ivory);
   position:relative;
   overflow:hidden;
+}
+.rsvp::before{
+  content:'';
+  position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(201,169,110,.08) 0%, transparent 50%),
+    radial-gradient(circle at 70% 80%, rgba(201,169,110,.08) 0%, transparent 50%);
+  pointer-events:none;
 }
 .rsvp .section-label{color:var(--champagne)}
 .rsvp .section-title{color:var(--ivory)}
@@ -627,8 +847,15 @@ section{position:relative}
   font-size:1.15rem;
   color:rgba(250,246,240,.8);
   line-height:1.7;
+  position:relative;
+  z-index:1;
 }
-.rsvp-form{max-width:560px;margin:0 auto;position:relative;z-index:1}
+.rsvp-form{
+  max-width:560px;
+  margin:0 auto;
+  position:relative;
+  z-index:1;
+}
 .form-group{margin-bottom:35px}
 .form-label{
   display:block;
@@ -651,8 +878,17 @@ section{position:relative}
   font-size:1.1rem;
   font-weight:300;
   outline:none;
+  transition:border-color .4s ease;
 }
-.form-options{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.form-input:focus{border-bottom-color:var(--champagne)}
+.form-input::placeholder{color:rgba(250,246,240,.3)}
+textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
+
+.form-options{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
 .form-option{
   padding:18px 20px;
   border:1px solid rgba(201,169,110,.3);
@@ -662,12 +898,37 @@ section{position:relative}
   color:rgba(250,246,240,.8);
   cursor:pointer;
   transition:all .4s ease;
+  background:transparent;
 }
+.form-option:hover{border-color:var(--champagne);color:var(--champagne)}
 .form-option.selected{
   border-color:var(--champagne);
   background:rgba(201,169,110,.1);
   color:var(--champagne);
 }
+
+.guest-selector{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.guest-num{
+  width:50px;height:50px;
+  border:1px solid rgba(201,169,110,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--serif);
+  font-size:1.2rem;
+  color:rgba(250,246,240,.8);
+  cursor:pointer;
+  transition:all .4s ease;
+}
+.guest-num:hover{border-color:var(--champagne);color:var(--champagne)}
+.guest-num.selected{
+  border-color:var(--champagne);
+  background:rgba(201,169,110,.1);
+  color:var(--champagne);
+}
+
 .submit-btn{
   display:block;
   width:100%;
@@ -682,8 +943,41 @@ section{position:relative}
   font-size:.7rem;
   transition:all .4s ease;
   background:transparent;
+  position:relative;
+  overflow:hidden;
 }
-.submit-btn:hover{background:var(--champagne);color:var(--dark)}
+.submit-btn::before{
+  content:'';
+  position:absolute;inset:0;
+  background:var(--champagne);
+  transform:translateY(100%);
+  transition:transform .4s ease;
+  z-index:-1;
+}
+.submit-btn:hover{color:var(--dark)}
+.submit-btn:hover::before{transform:translateY(0)}
+.submit-btn:disabled{opacity:.4;cursor:not-allowed}
+
+.rsvp-success{
+  display:none;
+  text-align:center;
+  padding:40px 20px;
+}
+.rsvp-success.show{display:block;animation:fadeUp 1s ease}
+.rsvp-success h3{
+  font-family:var(--serif);
+  font-weight:300;
+  font-size:2rem;
+  color:var(--champagne);
+  margin-bottom:20px;
+}
+.rsvp-success p{
+  font-family:var(--serif);
+  font-style:italic;
+  font-size:1.1rem;
+  color:rgba(250,246,240,.8);
+  line-height:1.7;
+}
 
 /* ============ FINAL PHOTO ============ */
 .final-photo{
@@ -700,11 +994,15 @@ section{position:relative}
   background-image:url('https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg');
   background-size:cover;
   background-position:center;
+  will-change:transform;
 }
 .final-photo::after{
   content:'';
   position:absolute;inset:0;
-  background:linear-gradient(180deg, rgba(44,24,16,.4) 0%, rgba(44,24,16,.6) 100%);
+  background:linear-gradient(180deg,
+    rgba(44,24,16,.4) 0%,
+    rgba(44,24,16,.5) 50%,
+    rgba(44,24,16,.6) 100%);
 }
 .final-photo-content{
   position:relative;
@@ -713,11 +1011,27 @@ section{position:relative}
   color:var(--ivory);
   padding:0 24px;
 }
+.final-photo-content .big{
+  font-family:var(--serif);
+  font-weight:300;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  font-size:clamp(.8rem, 2vw, 1rem);
+  margin-bottom:30px;
+  color:var(--champagne);
+}
 .final-photo-content .names{
   font-family:var(--script);
   font-size:clamp(3rem, 9vw, 5.5rem);
   line-height:1.1;
   margin-bottom:30px;
+}
+.final-photo-content .date{
+  font-family:var(--serif);
+  font-weight:300;
+  letter-spacing:.3em;
+  font-size:1rem;
+  color:var(--champagne);
 }
 
 /* ============ FINAL MESSAGE ============ */
@@ -726,20 +1040,75 @@ section{position:relative}
   text-align:center;
   padding:100px 24px 80px;
 }
+.final-msg .with-love{
+  font-family:var(--sans);
+  font-weight:300;
+  letter-spacing:.5em;
+  text-transform:uppercase;
+  font-size:.65rem;
+  color:var(--warm-brown);
+  margin-bottom:30px;
+}
 .final-msg .names{
   font-family:var(--script);
   font-size:clamp(2.5rem, 7vw, 4rem);
   color:var(--warm-brown);
   margin-bottom:30px;
 }
+.final-msg .date{
+  font-family:var(--serif);
+  font-weight:300;
+  letter-spacing:.3em;
+  font-size:1rem;
+  color:var(--soft-dark);
+  margin-bottom:40px;
+}
+.final-msg .heart{
+  display:inline-block;
+  width:8px;height:8px;
+  background:var(--gold);
+  transform:rotate(45deg);
+  position:relative;
+}
+.final-msg .heart::before,
+.final-msg .heart::after{
+  content:'';
+  position:absolute;
+  width:8px;height:8px;
+  background:var(--gold);
+  border-radius:50%;
+}
+.final-msg .heart::before{top:-4px;left:0}
+.final-msg .heart::after{left:4px;top:0}
+
+/* ============ LEAFLET OVERRIDES ============ */
+.leaflet-container{background:var(--cream)!important;font-family:var(--serif)!important}
+.leaflet-control-attribution{display:none!important}
+.leaflet-control-zoom a{
+  background:var(--ivory)!important;
+  color:var(--warm-brown)!important;
+  border-color:rgba(201,169,110,.3)!important;
+}
+.leaflet-popup-content-wrapper{
+  background:var(--ivory)!important;
+  color:var(--dark)!important;
+  border-radius:0!important;
+  box-shadow:0 4px 20px rgba(44,24,16,.15)!important;
+  font-family:var(--serif)!important;
+}
+.leaflet-popup-tip{background:var(--ivory)!important}
+.leaflet-popup-content{margin:15px 20px!important;font-size:1rem!important}
+
+/* ============ UTILITIES ============ */
+.text-center{text-align:center}
 </style>
 </head>
-<body class="lang-en">
+<body>
 
 <!-- ============ LANGUAGE SWITCHER ============ -->
 <div class="lang-switch">
-  <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
-  <button class="lang-btn" onclick="setLanguage('am')">AM</button>
+  <button class="lang-btn active" onclick="setLanguage('en')" id="btn-en">EN</button>
+  <button class="lang-btn" onclick="setLanguage('hy')" id="btn-hy">HY</button>
 </div>
 
 <!-- ============ MUSIC BUTTON ============ -->
@@ -754,32 +1123,17 @@ section{position:relative}
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-pre">
-      <span data-lang="en">The Wedding of</span>
-      <span data-lang="am">Հարսանեկան հրավեր</span>
-    </div>
+    <div class="hero-pre" data-en="The Wedding of" data-hy="Հարսանյաց Հանդես">The Wedding of</div>
     <h1 class="hero-names display">
-      <span class="hero-name first">
-        <span data-lang="en">Anna</span>
-        <span data-lang="am">Աննա</span>
-      </span>
+      <span class="hero-name first" data-en="Anna" data-hy="Աննա">Anna</span>
       <span class="hero-amp">&</span>
-      <span class="hero-name last">
-        <span data-lang="en">Davit</span>
-        <span data-lang="am">Դավիթ</span>
-      </span>
+      <span class="hero-name last" data-en="Davit" data-hy="Դավիթ">Davit</span>
     </h1>
-    <div class="hero-tagline">
-      <span data-lang="en">We are getting married</span>
-      <span data-lang="am">Մենք ամուսնանում ենք</span>
-    </div>
+    <div class="hero-tagline" data-en="We are getting married" data-hy="Մենք ամուսնանում ենք">We are getting married</div>
     <div class="hero-date">11 <span class="sep">•</span> 11 <span class="sep">•</span> 2026</div>
   </div>
   <div class="scroll-indicator">
-    <div class="label">
-      <span data-lang="en">Scroll</span>
-      <span data-lang="am">Թերթել</span>
-    </div>
+    <div class="label" data-en="Scroll" data-hy="Մկրտել">Scroll</div>
     <div class="line"></div>
   </div>
 </section>
@@ -787,45 +1141,33 @@ section{position:relative}
 <!-- ============ INTRO ============ -->
 <section class="intro section-pad">
   <div class="container">
-    <div class="reveal in">
+    <div class="reveal">
       <div class="section-head">
-        <div class="section-label">
-          <span data-lang="en">Together with our families</span>
-          <span data-lang="am">Մեր ընտանիքների հետ միասին</span>
-        </div>
+        <div class="section-label" data-en="Together with our families" data-hy="Մեր ընտանիքների հետ միասին">Together with our families</div>
         <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
       </div>
-      <p class="intro-text">
-        <span data-lang="en">We invite you to celebrate the beginning of our forever.<br>Two hearts, one journey, and a love story that started with a single glance.</span>
-        <span data-lang="am">Սիրով հրավիրում ենք Ձեզ կիսելու մեր միասնական կյանքի սկիզբը:<br>Երկու սիրտ, մեկ ճանապարհ և սիրո պատմություն, որն սկսվեց միայն մեկ հայացքից:</span>
+      <p class="intro-text" data-en="We invite you to celebrate the beginning of our forever.<br>Two hearts, one journey, and a love story that started with a single glance." data-hy="Սիրով հրավիրում ենք Ձեզ տոնելու մեր հավերժության սկիզբը:<br>Երկու սիրտ, մեկ ճանապարհ և սիրո պատմություն, որը սկսվեց միայն մեկ հայացքից:">
+        We invite you to celebrate the beginning of our forever.<br>
+        Two hearts, one journey, and a love story that started with a single glance.
       </p>
-      <div class="intro-names script">
-        <span data-lang="en">Anna & Davit</span>
-        <span data-lang="am">Աննա և Դավիթ</span>
-      </div>
+      <div class="intro-names script" data-en="Anna & Davit" data-hy="Աննա և Դավիթ">Anna & Davit</div>
     </div>
   </div>
 </section>
 
 <!-- ============ CINEMATIC PHOTO ============ -->
-<section class="cinematic">
-  <div class="cinematic-img"></div>
+<section class="cinematic" data-parallax>
+  <div class="cinematic-img reveal-img"></div>
 </section>
 
 <!-- ============ SAVE THE DATE ============ -->
 <section class="save-date section-pad">
   <div class="container">
-    <div class="date-block">
-      <div class="date-label">
-        <span data-lang="en">Save the Date</span>
-        <span data-lang="am">Պահպանեք ամսաթիվը</span>
-      </div>
+    <div class="date-block reveal">
+      <div class="date-label" data-en="Save the Date" data-hy="Պահպանեք Ամսաթիվը">Save the Date</div>
       <div class="ornament" style="margin-bottom:30px"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
       <div class="date-day display">11</div>
-      <div class="date-month">
-        <span data-lang="en">November</span>
-        <span data-lang="am">Նոյեմբեր</span>
-      </div>
+      <div class="date-month" data-en="November" data-hy="Նոյեմբեր">November</div>
       <div class="date-year">2026</div>
       <div class="ornament" style="margin-top:40px"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
@@ -835,45 +1177,27 @@ section{position:relative}
 <!-- ============ COUNTDOWN ============ -->
 <section class="countdown section-pad">
   <div class="container">
-    <div class="section-head">
-      <div class="section-label">
-        <span data-lang="en">Counting the moments</span>
-        <span data-lang="am">Հաշվում ենք րոպեները</span>
-      </div>
-      <h2 class="section-title">
-        <span data-lang="en">Until We Say I Do</span>
-        <span data-lang="am">Մինչ մեր «Այո»-ն</span>
-      </h2>
+    <div class="section-head reveal">
+      <div class="section-label" data-en="Counting the moments" data-hy="Հաշվում ենք ակնթարթները">Counting the moments</div>
+      <h2 class="section-title" data-en="Until We Say I Do" data-hy="Մինչև Հավերժ Միասին">Until We Say I Do</h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
-    <div class="countdown-grid" id="countdownGrid">
+    <div class="countdown-grid reveal" id="countdownGrid">
       <div class="cd-box">
         <div class="cd-num" id="cdDays">000</div>
-        <div class="cd-label">
-          <span data-lang="en">Days</span>
-          <span data-lang="am">Օր</span>
-        </div>
+        <div class="cd-label" data-en="Days" data-hy="Օր">Days</div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdHours">00</div>
-        <div class="cd-label">
-          <span data-lang="en">Hours</span>
-          <span data-lang="am">Ժամ</span>
-        </div>
+        <div class="cd-label" data-en="Hours" data-hy="Ժամ">Hours</div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdMins">00</div>
-        <div class="cd-label">
-          <span data-lang="en">Minutes</span>
-          <span data-lang="am">Րոպե</span>
-        </div>
+        <div class="cd-label" data-en="Minutes" data-hy="Րոպե">Minutes</div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdSecs">00</div>
-        <div class="cd-label">
-          <span data-lang="en">Seconds</span>
-          <span data-lang="am">Վայրկյան</span>
-        </div>
+        <div class="cd-label" data-en="Seconds" data-hy="Վայրկյան">Seconds</div>
       </div>
     </div>
   </div>
@@ -882,43 +1206,39 @@ section{position:relative}
 <!-- ============ OUR STORY ============ -->
 <section class="story section-pad">
   <div class="container">
-    <div class="section-head">
-      <div class="section-label">
-        <span data-lang="en">Our Journey</span>
-        <span data-lang="am">Մեր Ուղին</span>
-      </div>
-      <h2 class="section-title script">
-        <span data-lang="en">Our Story</span>
-        <span data-lang="am">Մեր Պատմությունը</span>
-      </h2>
+    <div class="section-head reveal">
+      <div class="section-label" data-en="Our Journey" data-hy="Մեր Ճանապարհը">Our Journey</div>
+      <h2 class="section-title script" data-en="Our Story" data-hy="Մեր Պատմությունը">Our Story</h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
-    <div class="story-item">
-      <div class="story-img-wrap">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Anna">
+    <div class="story-item reveal">
+      <div class="story-img-wrap reveal-mask">
+        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Anna" loading="lazy">
       </div>
       <div class="story-text">
-        <span class="story-num">
-          <span data-lang="en">Chapter One</span>
-          <span data-lang="am">Գլուխ Առաջին</span>
-        </span>
-        <span data-lang="en">It started with a look — a moment that felt like the world had paused just for us. From that day forward, nothing was ever the same.</span>
-        <span data-lang="am">Ամեն ինչ սկսվեց մի հայացքից՝ մի պահ, երբ թվաց, թե աշխարհը կանգ է առել միայն մեզ համար: Այդ օրվանից ի վեր ամեն ինչ փոխվեց:</span>
+        <span class="story-num" data-en="Chapter One" data-hy="Գլուխ Առաջին">Chapter One</span>
+        <span data-en="It started with a look — a moment that felt like the world had paused just for us. From that day forward, nothing was ever the same." data-hy="Ամեն ինչ սկսվեց մի հայացքից՝ մի պահ, երբ թվում էր, թե աշխարհը կանգ է առել միայն մեզ համար: Այդ օրվանից ի վեր ոչինչ առաջվանը չէր:">It started with a look — a moment that felt like the world had paused just for us. From that day forward, nothing was ever the same.</span>
       </div>
     </div>
 
-    <div class="story-item reverse">
-      <div class="story-img-wrap">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Together">
+    <div class="story-item reverse reveal">
+      <div class="story-img-wrap reveal-mask">
+        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Together" loading="lazy">
       </div>
       <div class="story-text">
-        <span class="story-num">
-          <span data-lang="en">Chapter Two</span>
-          <span data-lang="am">Գլուխ Երկրորդ</span>
-        </span>
-        <span data-lang="en">Two different stories, two different worlds — and yet, somehow, they became one. Every laugh, every silence brought us closer.</span>
-        <span data-lang="am">Երկու տարբեր պատմություններ, երկու աշխարհ, որոնք դարձան մեկ ամբողջություն: Ամեն ժպիտ ու լռություն մեզ ավելի մոտեցրին:</span>
+        <span class="story-num" data-en="Chapter Two" data-hy="Գլուխ Երկրորդ">Chapter Two</span>
+        <span data-en="Two different stories, two different worlds — and yet, somehow, they became one. Every laugh, every silence, every shared dream brought us closer." data-hy="Երկու տարբեր պատմություններ, երկու տարբեր աշխարհներ, որոնք, ի վերջո, դարձան մեկ ամբողջություն: Ամեն ծիծաղ, ամեն լռություն և ամեն ընդհանուր երազանք մեզ ավելի մոտեցրին:">Two different stories, two different worlds — and yet, somehow, they became one. Every laugh, every silence, every shared dream brought us closer.</span>
+      </div>
+    </div>
+
+    <div class="story-item reveal">
+      <div class="story-img-wrap reveal-mask">
+        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg" alt="Davit" loading="lazy">
+      </div>
+      <div class="story-text">
+        <span class="story-num" data-en="Chapter Three" data-hy="Գլուխ Երրորդ">Chapter Three</span>
+        <span data-en="And now we begin our forever. On the 11th of November, 2026, we invite you to witness the next chapter of our love story." data-hy="Եվ հիմա սկսվում է մեր հավերժությունը: 2026 թվականի նոյեմբերի 11-ին սիրով հրավիրում ենք Ձեզ ականատես լինելու մեր սիրո պատմության հաջորդ գլխին:">And now we begin our forever. On the 11th of November, 2026, we invite you to witness the next chapter of our love story.</span>
       </div>
     </div>
   </div>
@@ -927,59 +1247,27 @@ section{position:relative}
 <!-- ============ WEDDING DETAILS ============ -->
 <section class="details section-pad">
   <div class="container">
-    <div class="section-head">
-      <div class="section-label">
-        <span data-lang="en">The Celebration</span>
-        <span data-lang="am">Տոնակատարություն</span>
-      </div>
-      <h2 class="section-title">
-        <span data-lang="en">The Wedding Day</span>
-        <span data-lang="am">Հարսանեկան Օրը</span>
-      </h2>
+    <div class="section-head reveal">
+      <div class="section-label" data-en="The Celebration" data-hy="Տոնակատարությունը">The Celebration</div>
+      <h2 class="section-title" data-en="The Wedding Day" data-hy="Հարսանյաց Օրը">The Wedding Day</h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
     <div class="details-grid">
-      <!-- Ceremony Card -->
-      <div class="detail-card">
-        <div class="detail-type">
-          <span data-lang="en">Ceremony</span>
-          <span data-lang="am">Պսակադրություն</span>
-        </div>
-        <div class="detail-title">
-          <span data-lang="en">Saint Hripsime Church</span>
-          <span data-lang="am">Սուրբ Հռիփսիմե Եկեղեցի</span>
-        </div>
-        <div class="detail-time">15:00</div>
-        <div class="detail-address">
-          <span data-lang="en">Echmiadzin, Armenia</span>
-          <span data-lang="am">Էջմիածին, Հայաստան</span>
-        </div>
-        <a href="https://maps.google.com" target="_blank" class="map-btn">
-          <span data-lang="en">View Map</span>
-          <span data-lang="am">Քարտեզ</span>
-        </a>
+      <div class="detail-card reveal">
+        <div class="detail-type" data-en="Ceremony" data-hy="Պսակադրություն">Ceremony</div>
+        <div class="detail-title" data-en="Saint Sarkis Church" data-hy="Սուրբ Սարգիս Եկեղեցի">Saint Sarkis Church</div>
+        <div class="detail-time" data-en="14:00 PM" data-hy="14:00">14:00 PM</div>
+        <div class="detail-address" data-en="Isakov Ave, Yerevan, Armenia" data-hy="Իսակովի պողոտա, Երևան, Հայաստան">Isakov Ave, Yerevan, Armenia</div>
+        <button class="map-btn" data-en="View Map" data-hy="Տեսնել Քարտեզը">View Map</button>
       </div>
 
-      <!-- Reception Card -->
-      <div class="detail-card">
-        <div class="detail-type">
-          <span data-lang="en">Reception</span>
-          <span data-lang="am">Հարսանյաց Հանդես</span>
-        </div>
-        <div class="detail-title">
-          <span data-lang="en">Grand Hall</span>
-          <span data-lang="am">Ռեստորանային Համալիր</span>
-        </div>
-        <div class="detail-time">18:00</div>
-        <div class="detail-address">
-          <span data-lang="en">Yerevan, Armenia</span>
-          <span data-lang="am">Երևան, Հայաստան</span>
-        </div>
-        <a href="https://maps.google.com" target="_blank" class="map-btn">
-          <span data-lang="en">View Map</span>
-          <span data-lang="am">Քարտեզ</span>
-        </a>
+      <div class="detail-card reveal">
+        <div class="detail-type" data-en="Reception" data-hy="Հանդիսություն">Reception</div>
+        <div class="detail-title" data-en="Grand Restaurant" data-hy="Գրանդ Ռեստորան">Grand Restaurant</div>
+        <div class="detail-time" data-en="17:00 PM" data-hy="17:00">17:00 PM</div>
+        <div class="detail-address" data-en="Northern Ave, Yerevan, Armenia" data-hy="Հյուսիսային պողոտա, Երևան, Հայաստան">Northern Ave, Yerevan, Armenia</div>
+        <button class="map-btn" data-en="View Map" data-hy="Տեսնել Քարտեզը">View Map</button>
       </div>
     </div>
   </div>
@@ -988,106 +1276,130 @@ section{position:relative}
 <!-- ============ TIMELINE ============ -->
 <section class="timeline-section section-pad">
   <div class="container">
-    <div class="section-head">
-      <div class="section-label">
-        <span data-lang="en">Schedule</span>
-        <span data-lang="am">Ժամանակացույց</span>
-      </div>
-      <h2 class="section-title">
-        <span data-lang="en">Order of Events</span>
-        <span data-lang="am">Օրվա Ծրագիրը</span>
-      </h2>
+    <div class="section-head reveal">
+      <div class="section-label" data-en="Schedule" data-hy="Ժամանակացույց">Schedule</div>
+      <h2 class="section-title script" data-en="Wedding Timeline" data-hy="Օրվա Ծրագիրը">Wedding Timeline</h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
-    <div class="timeline">
+    <div class="timeline reveal">
       <div class="tl-item">
-        <div class="tl-time">15:00</div>
+        <div class="tl-time">14:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">
-          <span data-lang="en">Holy Ceremony</span>
-          <span data-lang="am">Պսակադրության Արարողություն</span>
-        </div>
+        <div class="tl-text" data-en="Holy Ceremony" data-hy="Պսակադրության Արարողություն">Holy Ceremony</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-time">16:00</div>
+        <div class="tl-dot"></div>
+        <div class="tl-text" data-en="Welcome Drinks" data-hy="Հյուրասիրություն">Welcome Drinks</div>
       </div>
       <div class="tl-item">
         <div class="tl-time">17:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">
-          <span data-lang="en">Welcome Cocktail</span>
-          <span data-lang="am">Հյուրասիրություն</span>
-        </div>
+        <div class="tl-text" data-en="Gala Dinner" data-hy="Տոնական Ճաշկերույթ">Gala Dinner</div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">18:00</div>
+        <div class="tl-time">19:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">
-          <span data-lang="en">Gala Dinner</span>
-          <span data-lang="am">Հարսանեկան Ճաշկերույթ</span>
-        </div>
+        <div class="tl-text" data-en="First Dance" data-hy="Առաջին Պար">First Dance</div>
       </div>
       <div class="tl-item">
-        <div class="tl-time">22:00</div>
+        <div class="tl-time">21:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">
-          <span data-lang="en">Wedding Cake</span>
-          <span data-lang="am">Տորթի Կտրում</span>
-        </div>
+        <div class="tl-text" data-en="Wedding Cake" data-hy="Տորթի Կտրում">Wedding Cake</div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- ============ DRESS CODE ============ -->
+<section class="dresscode section-pad">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-label" data-en="Style Guide" data-hy="Ոճի Ուղեցույց">Style Guide</div>
+      <h2 class="section-title" data-en="Dress Code" data-hy="Դրես Կոդ">Dress Code</h2>
+      <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
+    </div>
+    <p class="dresscode-text reveal" data-en="We kindly ask our guests to stick to formal attire in warm, muted shades." data-hy="Խնդրում ենք մեր հյուրերին նախապատվությունը տալ երեկոյան հագուստին՝ ջերմ և մեղմ երանգներով:">
+      We kindly ask our guests to stick to formal attire in warm, muted shades.
+    </p>
+    <div class="color-swatches reveal">
+      <div class="swatch">
+        <div class="swatch-circle" style="background:#8b6f47"></div>
+        <span class="swatch-label" data-en="Warm Brown" data-hy="Ջերմ Շագանակագույն">Warm Brown</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch-circle" style="background:#c9a96e"></div>
+        <span class="swatch-label" data-en="Gold" data-hy="Ոսկեգույն">Gold</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch-circle" style="background:#e8d5b7"></div>
+        <span class="swatch-label" data-en="Champagne" data-hy="Շամպայն">Champagne</span>
+      </div>
+      <div class="swatch">
+        <div class="swatch-circle" style="background:#2c1810"></div>
+        <span class="swatch-label" data-en="Deep Brown" data-hy="Մուգ Շագանակագույն">Deep Brown</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUOTE ============ -->
+<section class="quote">
+  <p class="quote-text" data-en="“Love does not consist in gazing at each other, but in looking outward together in the same direction.”" data-hy="«Սերը միմյանց նայելը չէ, այլ միասին նույն ուղղությամբ նայելը:»">
+    “Love does not consist in gazing at each other, but in looking outward together in the same direction.”
+  </p>
+  <div class="quote-author" data-en="Antoine de Saint-Exupéry" data-hy="Անտուան դը Սենտ-Էկզյուպերի">Antoine de Saint-Exupéry</div>
+</section>
+
 <!-- ============ RSVP ============ -->
 <section class="rsvp section-pad">
   <div class="container">
-    <div class="section-head">
-      <div class="section-label">
-        <span data-lang="en">RSVP</span>
-        <span data-lang="am">Հաստատում</span>
-      </div>
-      <h2 class="section-title">
-        <span data-lang="en">Are You Attending?</span>
-        <span data-lang="am">Կսպասենք Ձեզ</span>
-      </h2>
+    <div class="section-head reveal">
+      <div class="section-label" data-en="RSVP" data-hy="Հաստատում">RSVP</div>
+      <h2 class="section-title" data-en="Will You Join Us?" data-hy="Կմիանա՞ք Մեզ">Will You Join Us?</h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
-
-    <p class="rsvp-intro">
-      <span data-lang="en">Please respond by October 1, 2026 to help us prepare for our special day.</span>
-      <span data-lang="am">Խնդրում ենք հաստատել Ձեր մասնակցությունը մինչև 2026թ. հոկտեմբերի 1-ը:</span>
+    <p class="rsvp-intro reveal" data-en="Please respond by October 1st, 2026 to help us prepare for our special day." data-hy="Խնդրում ենք հաստատել Ձեր մասնակցությունը մինչև 2026թ. հոկտեմբերի 1-ը:">
+      Please respond by October 1st, 2026 to help us prepare for our special day.
     </p>
 
-    <form class="rsvp-form" onsubmit="event.preventDefault(); alert('Thank you!');">
+    <form class="rsvp-form reveal" onsubmit="event.preventDefault(); document.querySelector('.rsvp-form').style.display='none'; document.querySelector('.rsvp-success').classList.add('show');">
       <div class="form-group">
-        <label class="form-label">
-          <span data-lang="en">Your Name</span>
-          <span data-lang="am">Ձեր Անունը</span>
-        </label>
-        <input type="text" class="form-input" required>
+        <label class="form-label" data-en="Full Name" data-hy="Անուն Ազգանուն">Full Name</label>
+        <input type="text" class="form-input" required placeholder="John Doe" data-ph-en="John Doe" data-ph-hy="Անուն Ազգանուն">
       </div>
 
       <div class="form-group">
-        <label class="form-label">
-          <span data-lang="en">Will you join us?</span>
-          <span data-lang="am">Մասնակցելու եք</span>
-        </label>
+        <label class="form-label" data-en="Will you be attending?" data-hy="Մասնակցելո՞ւ եք">Will you be attending?</label>
         <div class="form-options">
-          <div class="form-option selected" onclick="selectOpt(this)">
-            <span data-lang="en">Joyfully Accept</span>
-            <span data-lang="am">Սիրով կգամ</span>
-          </div>
-          <div class="form-option" onclick="selectOpt(this)">
-            <span data-lang="en">Regretfully Decline</span>
-            <span data-lang="am">Ցավոք, չեմ կարող</span>
-          </div>
+          <button type="button" class="form-option selected" onclick="selectOption(this)" data-en="Joyfully Accept" data-hy="Սիրով Կգամ">Joyfully Accept</button>
+          <button type="button" class="form-option" onclick="selectOption(this)" data-en="Regretfully Decline" data-hy="Ցավոք, Չեմ Կարող">Regretfully Decline</button>
         </div>
       </div>
 
-      <button type="submit" class="submit-btn">
-        <span data-lang="en">Send Confirmation</span>
-        <span data-lang="am">Ուղարկել</span>
-      </button>
+      <div class="form-group">
+        <label class="form-label" data-en="Number of Guests" data-hy="Հյուրերի Քանակը">Number of Guests</label>
+        <div class="guest-selector">
+          <div class="guest-num selected" onclick="selectGuest(this)">1</div>
+          <div class="guest-num" onclick="selectGuest(this)">2</div>
+          <div class="guest-num" onclick="selectGuest(this)">3</div>
+          <div class="guest-num" onclick="selectGuest(this)">4+</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" data-en="Wishes or Dietary Restrictions" data-hy="Բարեմաղթանքներ կամ Նախասիրություններ">Wishes or Dietary Restrictions</label>
+        <textarea class="form-input" placeholder="Your message..." data-ph-en="Your message..." data-ph-hy="Ձեր նամակը..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" data-en="Send RSVP" data-hy="Ուղարկել">Send RSVP</button>
     </form>
+
+    <div class="rsvp-success">
+      <h3 data-en="Thank You!" data-hy="Շնորհակալություն:">Thank You!</h3>
+      <p data-en="Your response has been saved. We can't wait to celebrate with you!" data-hy="Ձեր պատասխանը պահպանված է: Անհամբեր սպասում ենք Ձեզ հետ տոնելու մեր օրը:">Your response has been saved. We can't wait to celebrate with you!</p>
+    </div>
   </div>
 </section>
 
@@ -1095,79 +1407,89 @@ section{position:relative}
 <section class="final-photo">
   <div class="final-photo-bg"></div>
   <div class="final-photo-content">
-    <div class="names script">
-      <span data-lang="en">Anna & Davit</span>
-      <span data-lang="am">Աննա և Դավիթ</span>
-    </div>
+    <div class="big" data-en="See you there" data-hy="Սպասում ենք Ձեզ">See you there</div>
+    <div class="names" data-en="Anna & Davit" data-hy="Աննա և Դավիթ">Anna & Davit</div>
+    <div class="date">11 . 11 . 2026</div>
   </div>
 </section>
 
 <!-- ============ FINAL MESSAGE ============ -->
-<footer class="final-msg">
-  <div class="names script">
-    <span data-lang="en">See you there!</span>
-    <span data-lang="am">Սպասում ենք Ձեզ</span>
-  </div>
-</footer>
+<section class="final-msg">
+  <div class="with-love" data-en="With Love" data-hy="Սիրով">With Love</div>
+  <div class="names" data-en="Anna & Davit" data-hy="Աննա և Դավիթ">Anna & Davit</div>
+  <div class="date">11 . 11 . 2026</div>
+  <div class="heart"></div>
+</section>
 
 <script>
-// Switch language between EN and AM
+// ============ REVEAL ON SCROLL ============
+const observerOptions = { threshold: 0.1 };
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('in');
+    }
+  });
+}, observerOptions);
+
+document.querySelectorAll('.reveal, .reveal-img, .reveal-mask').forEach(el => observer.observe(el));
+
+// ============ RSVP FORM CONTROLS ============
+function selectOption(btn) {
+  btn.parentElement.querySelectorAll('.form-option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+
+function selectGuest(num) {
+  num.parentElement.querySelectorAll('.guest-num').forEach(n => n.classList.remove('selected'));
+  num.classList.add('selected');
+}
+
+// ============ LANGUAGE SWITCHER LOGIC ============
 function setLanguage(lang) {
-  document.body.className = 'lang-' + lang;
-  const buttons = document.querySelectorAll('.lang-btn');
-  buttons.forEach(btn => {
-    if(btn.textContent.toLowerCase() === lang) {
-      btn.classList.add('active');
-    } else {
-      btn.classList.remove('active');
+  document.querySelectorAll('#btn-en, #btn-hy').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`btn-${lang}`).classList.add('active');
+
+  document.querySelectorAll('[data-en]').forEach(el => {
+    if (el.dataset[lang]) {
+      el.innerHTML = el.dataset[lang];
+    }
+  });
+
+  document.querySelectorAll('[data-ph-en]').forEach(el => {
+    if (el.dataset[`ph${lang.charAt(0).toUpperCase() + lang.slice(1)}`]) {
+      el.placeholder = el.dataset[`ph${lang.charAt(0).toUpperCase() + lang.slice(1)}`];
     }
   });
 }
 
-// Simple option selector script for RSVP
-function selectOpt(element) {
-  const siblings = element.parentNode.children;
-  for(let sibling of siblings) {
-    sibling.classList.remove('selected');
-  }
-  element.classList.add('selected');
-}
+// ============ COUNTDOWN TIMER ============
+const weddingDate = new Date("November 11, 2026 14:00:00").getTime();
+setInterval(() => {
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
 
-// Music player logic
+  if (distance > 0) {
+    document.getElementById("cdDays").innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+    document.getElementById("cdHours").innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    document.getElementById("cdMins").innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    document.getElementById("cdSecs").innerText = Math.floor((distance % (1000 * 60)) / 1000);
+  }
+}, 1000);
+
+// ============ MUSIC PLAYER ============
 const musicBtn = document.getElementById('musicBtn');
 const bgMusic = document.getElementById('bgMusic');
-if(musicBtn && bgMusic) {
-  musicBtn.addEventListener('click', () => {
-    if (bgMusic.paused) {
-      bgMusic.play();
-      musicBtn.classList.add('playing');
-    } else {
-      bgMusic.pause();
-      musicBtn.classList.remove('playing');
-    }
-  });
-}
-
-// Countdown timer script
-const targetDate = new Date('2026-11-11T15:00:00').getTime();
-function updateCountdown() {
-  const now = new Date().getTime();
-  const diff = targetDate - now;
-
-  if (diff > 0) {
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const secs = Math.floor((diff % (1000 * 60)) / 1000);
-
-    document.getElementById('cdDays').textContent = String(days).padStart(3, '0');
-    document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
-    document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
-    document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
+musicBtn.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play();
+    musicBtn.classList.add('playing');
+  } else {
+    bgMusic.pause();
+    musicBtn.classList.remove('playing');
   }
-}
-setInterval(updateCountdown, 1000);
-updateCountdown();
+});
 </script>
+
 </body>
 </html>
