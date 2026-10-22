@@ -11,8 +11,8 @@
 <link href="https://cdn.jsdelivr.net/fontsource/css/cormorant-garamond@latest/latin-400-italic.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-300-normal.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-400-normal.css" rel="stylesheet">
-<link href="https://cdn.jsdelivr.net/fontsource/css/montserrat@latest/latin-500-normal.css" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/fontsource/css/great-vibes@latest/latin-400-normal.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Armenian:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
 <style>
 /* ============ RESET & BASE ============ */
@@ -34,7 +34,7 @@ a{color:inherit;text-decoration:none}
   --gold:#c9a96e;
   --gold-soft:#b89968;
   --blush:#f0e2d0;
-  --serif:'Cormorant Garamond', Georgia, serif;
+  --serif:'Cormorant Garamond', 'Noto Serif Armenian', Georgia, serif;
   --sans:'Montserrat', system-ui, sans-serif;
   --script:'Great Vibes', cursive;
 }
@@ -55,6 +55,46 @@ body{
 .display{font-family:var(--serif);font-weight:300;letter-spacing:.02em}
 .script{font-family:var(--script);font-weight:400}
 .sans{font-family:var(--sans);font-weight:300;letter-spacing:.25em;text-transform:uppercase;font-size:.7rem}
+
+/* ============ LANGUAGE SWITCHER ============ */
+.lang-switch{
+  position:fixed;
+  top:24px;right:24px;
+  z-index:100;
+  display:flex;
+  background:rgba(250,246,240,.85);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(201,169,110,.3);
+  border-radius:25px;
+  padding:3px;
+  box-shadow:0 4px 20px rgba(44,24,16,.08);
+}
+.lang-btn{
+  font-family:var(--sans);
+  font-size:.65rem;
+  letter-spacing:.15em;
+  padding:6px 14px;
+  border-radius:20px;
+  color:var(--warm-brown);
+  transition:all .3s ease;
+}
+.lang-btn.active{
+  background:var(--warm-brown);
+  color:var(--ivory);
+}
+
+/* ============ MULTI-LANGUAGE TOGGLE DISPLAY ============ */
+[data-lang]{display:none!important}
+body.lang-en [data-lang="en"]{display:block!important}
+body.lang-en span[data-lang="en"],
+body.lang-en a[data-lang="en"],
+body.lang-en div[data-lang="en"]{display:inline-block!important}
+
+body.lang-am [data-lang="am"]{display:block!important}
+body.lang-am span[data-lang="am"],
+body.lang-am a[data-lang="am"],
+body.lang-am div[data-lang="am"]{display:inline-block!important}
 
 /* ============ MUSIC BUTTON ============ */
 .music-btn{
@@ -254,12 +294,6 @@ section{position:relative}
 .reveal-mask{clip-path:inset(100% 0 0 0);transition:clip-path 1.5s cubic-bezier(.77,0,.175,1)}
 .reveal-mask.in{clip-path:inset(0 0 0 0)}
 
-@media(prefers-reduced-motion:reduce){
-  .reveal,.reveal-img{opacity:1;transform:none;transition:none}
-  .reveal-mask{clip-path:none;transition:none}
-  .hero-bg{animation:none}
-}
-
 /* ============ INTRO ============ */
 .intro{
   background:var(--ivory);
@@ -276,7 +310,6 @@ section{position:relative}
   color:var(--soft-dark);
   letter-spacing:.01em;
 }
-.intro-text em{font-style:italic;color:var(--warm-brown)}
 .intro-names{
   margin-top:50px;
   font-family:var(--script);
@@ -298,16 +331,6 @@ section{position:relative}
   background-position:center;
   will-change:transform;
 }
-.cinematic::after{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,
-    rgba(44,24,16,.15) 0%,
-    transparent 40%,
-    transparent 60%,
-    rgba(44,24,16,.2) 100%);
-  pointer-events:none;
-}
 
 /* ============ SAVE THE DATE ============ */
 .save-date{
@@ -315,14 +338,6 @@ section{position:relative}
   text-align:center;
   position:relative;
   overflow:hidden;
-}
-.save-date::before{
-  content:'';
-  position:absolute;
-  top:-50%;left:-50%;
-  width:200%;height:200%;
-  background:radial-gradient(circle, rgba(201,169,110,.08) 0%, transparent 60%);
-  pointer-events:none;
 }
 .date-block{position:relative;z-index:1}
 .date-label{
@@ -369,14 +384,6 @@ section{position:relative}
   position:relative;
   overflow:hidden;
 }
-.countdown::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 20% 30%, rgba(201,169,110,.1) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(201,169,110,.1) 0%, transparent 50%);
-  pointer-events:none;
-}
 .countdown .section-label{color:var(--champagne)}
 .countdown .section-title{color:var(--ivory)}
 .countdown-grid{
@@ -411,17 +418,6 @@ section{position:relative}
   color:rgba(250,246,240,.6);
   margin-top:12px;
 }
-.countdown-ended{
-  font-family:var(--serif);
-  font-style:italic;
-  font-size:clamp(1.5rem, 4vw, 2rem);
-  color:var(--champagne);
-  text-align:center;
-}
-@media(max-width:480px){
-  .countdown-grid{gap:10px}
-  .cd-box{padding:20px 5px}
-}
 
 /* ============ OUR STORY ============ */
 .story{background:var(--ivory)}
@@ -444,14 +440,6 @@ section{position:relative}
   width:100%;height:100%;
   object-fit:cover;
   transition:transform 1.5s ease;
-}
-.story-img-wrap:hover img{transform:scale(1.04)}
-.story-img-wrap::after{
-  content:'';
-  position:absolute;inset:0;
-  border:1px solid rgba(201,169,110,.3);
-  pointer-events:none;
-  margin:15px;
 }
 .story-text{
   font-family:var(--serif);
@@ -532,12 +520,6 @@ section{position:relative}
   line-height:1.6;
   margin-bottom:25px;
 }
-.detail-map{
-  width:100%;
-  height:220px;
-  margin:20px 0;
-  border:1px solid rgba(201,169,110,.3);
-}
 .map-btn{
   display:inline-block;
   padding:12px 30px;
@@ -582,7 +564,6 @@ section{position:relative}
   margin-bottom:50px;
   position:relative;
 }
-.tl-item:last-child{margin-bottom:0}
 .tl-time{
   font-family:var(--serif);
   font-weight:300;
@@ -613,21 +594,6 @@ section{position:relative}
   font-size:.7rem;
   color:var(--dark);
 }
-@media(max-width:600px){
-  .timeline::before{left:20px}
-  .tl-item{
-    grid-template-columns:40px 1fr;
-    gap:20px;
-  }
-  .tl-time{
-    grid-column:1/3;
-    text-align:left;
-    font-size:1.2rem;
-    margin-bottom:-10px;
-  }
-  .tl-dot{grid-column:1;justify-self:center}
-  .tl-text{grid-column:2;text-align:left}
-}
 
 /* ============ DRESS CODE ============ */
 .dresscode{background:var(--cream);text-align:center}
@@ -641,153 +607,6 @@ section{position:relative}
   color:var(--soft-dark);
   line-height:1.7;
 }
-.color-swatches{
-  display:flex;
-  justify-content:center;
-  gap:20px;
-  flex-wrap:wrap;
-}
-.swatch{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-}
-.swatch-circle{
-  width:55px;height:55px;
-  border-radius:50%;
-  border:1px solid rgba(44,24,16,.1);
-  box-shadow:0 4px 15px rgba(44,24,16,.08);
-  transition:transform .4s ease;
-}
-.swatch-circle:hover{transform:scale(1.1)}
-.swatch-label{
-  font-family:var(--sans);
-  font-weight:300;
-  letter-spacing:.2em;
-  text-transform:uppercase;
-  font-size:.6rem;
-  color:var(--warm-brown);
-}
-
-/* ============ GALLERY ============ */
-.gallery{background:var(--ivory)}
-.gallery-grid{
-  display:grid;
-  grid-template-columns:repeat(6, 1fr);
-  grid-auto-rows:120px;
-  gap:15px;
-  max-width:1200px;
-  margin:0 auto;
-}
-.gal-item{
-  overflow:hidden;
-  position:relative;
-  cursor:pointer;
-}
-.gal-item img{
-  width:100%;height:100%;
-  object-fit:cover;
-  transition:transform 1.2s ease;
-}
-.gal-item:hover img{transform:scale(1.06)}
-.gal-item::after{
-  content:'';
-  position:absolute;inset:0;
-  background:rgba(44,24,16,0);
-  transition:background .4s ease;
-}
-.gal-item:hover::after{background:rgba(44,24,16,.15)}
-
-.gal-1{grid-column:span 3;grid-row:span 4}
-.gal-2{grid-column:span 3;grid-row:span 2}
-.gal-3{grid-column:span 2;grid-row:span 2}
-.gal-4{grid-column:span 4;grid-row:span 2}
-.gal-5{grid-column:span 2;grid-row:span 3}
-.gal-6{grid-column:span 4;grid-row:span 3}
-
-@media(max-width:768px){
-  .gallery-grid{
-    grid-template-columns:repeat(2, 1fr);
-    grid-auto-rows:180px;
-    gap:10px;
-  }
-  .gal-1,.gal-2,.gal-3,.gal-4,.gal-5,.gal-6{
-    grid-column:span 1;
-    grid-row:span 2;
-  }
-  .gal-1{grid-column:span 2;grid-row:span 3}
-}
-
-/* ============ LIGHTBOX ============ */
-.lightbox{
-  position:fixed;inset:0;
-  background:rgba(10,5,2,.95);
-  z-index:200;
-  display:none;
-  align-items:center;justify-content:center;
-  padding:20px;
-  opacity:0;
-  transition:opacity .4s ease;
-}
-.lightbox.open{display:flex;opacity:1}
-.lightbox img{
-  max-width:100%;
-  max-height:90vh;
-  object-fit:contain;
-}
-.lightbox-close{
-  position:absolute;
-  top:20px;right:20px;
-  width:44px;height:44px;
-  color:var(--ivory);
-  font-size:1.5rem;
-  display:flex;align-items:center;justify-content:center;
-}
-
-/* ============ QUOTE ============ */
-.quote{
-  background:linear-gradient(180deg, var(--soft-dark) 0%, var(--dark) 100%);
-  color:var(--ivory);
-  text-align:center;
-  padding:140px 24px;
-  position:relative;
-  overflow:hidden;
-}
-.quote::before{
-  content:'“';
-  position:absolute;
-  top:40px;left:50%;
-  transform:translateX(-50%);
-  font-family:var(--serif);
-  font-size:10rem;
-  color:rgba(201,169,110,.15);
-  line-height:1;
-  pointer-events:none;
-}
-.quote-text{
-  font-family:var(--serif);
-  font-weight:300;
-  font-style:italic;
-  font-size:clamp(1.4rem, 4vw, 2.2rem);
-  line-height:1.6;
-  max-width:700px;
-  margin:0 auto;
-  position:relative;
-  z-index:1;
-  color:var(--champagne);
-}
-.quote-author{
-  margin-top:40px;
-  font-family:var(--sans);
-  font-weight:300;
-  letter-spacing:.4em;
-  text-transform:uppercase;
-  font-size:.65rem;
-  color:rgba(250,246,240,.6);
-  position:relative;
-  z-index:1;
-}
 
 /* ============ RSVP ============ */
 .rsvp{
@@ -795,14 +614,6 @@ section{position:relative}
   color:var(--ivory);
   position:relative;
   overflow:hidden;
-}
-.rsvp::before{
-  content:'';
-  position:absolute;inset:0;
-  background:
-    radial-gradient(circle at 30% 20%, rgba(201,169,110,.08) 0%, transparent 50%),
-    radial-gradient(circle at 70% 80%, rgba(201,169,110,.08) 0%, transparent 50%);
-  pointer-events:none;
 }
 .rsvp .section-label{color:var(--champagne)}
 .rsvp .section-title{color:var(--ivory)}
@@ -816,15 +627,8 @@ section{position:relative}
   font-size:1.15rem;
   color:rgba(250,246,240,.8);
   line-height:1.7;
-  position:relative;
-  z-index:1;
 }
-.rsvp-form{
-  max-width:560px;
-  margin:0 auto;
-  position:relative;
-  z-index:1;
-}
+.rsvp-form{max-width:560px;margin:0 auto;position:relative;z-index:1}
 .form-group{margin-bottom:35px}
 .form-label{
   display:block;
@@ -847,17 +651,8 @@ section{position:relative}
   font-size:1.1rem;
   font-weight:300;
   outline:none;
-  transition:border-color .4s ease;
 }
-.form-input:focus{border-bottom-color:var(--champagne)}
-.form-input::placeholder{color:rgba(250,246,240,.3)}
-textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
-
-.form-options{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:15px;
-}
+.form-options{display:grid;grid-template-columns:1fr 1fr;gap:15px}
 .form-option{
   padding:18px 20px;
   border:1px solid rgba(201,169,110,.3);
@@ -867,37 +662,12 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
   color:rgba(250,246,240,.8);
   cursor:pointer;
   transition:all .4s ease;
-  background:transparent;
 }
-.form-option:hover{border-color:var(--champagne);color:var(--champagne)}
 .form-option.selected{
   border-color:var(--champagne);
   background:rgba(201,169,110,.1);
   color:var(--champagne);
 }
-
-.guest-selector{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-.guest-num{
-  width:50px;height:50px;
-  border:1px solid rgba(201,169,110,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--serif);
-  font-size:1.2rem;
-  color:rgba(250,246,240,.8);
-  cursor:pointer;
-  transition:all .4s ease;
-}
-.guest-num:hover{border-color:var(--champagne);color:var(--champagne)}
-.guest-num.selected{
-  border-color:var(--champagne);
-  background:rgba(201,169,110,.1);
-  color:var(--champagne);
-}
-
 .submit-btn{
   display:block;
   width:100%;
@@ -912,41 +682,8 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
   font-size:.7rem;
   transition:all .4s ease;
   background:transparent;
-  position:relative;
-  overflow:hidden;
 }
-.submit-btn::before{
-  content:'';
-  position:absolute;inset:0;
-  background:var(--champagne);
-  transform:translateY(100%);
-  transition:transform .4s ease;
-  z-index:-1;
-}
-.submit-btn:hover{color:var(--dark)}
-.submit-btn:hover::before{transform:translateY(0)}
-.submit-btn:disabled{opacity:.4;cursor:not-allowed}
-
-.rsvp-success{
-  display:none;
-  text-align:center;
-  padding:40px 20px;
-}
-.rsvp-success.show{display:block;animation:fadeUp 1s ease}
-.rsvp-success h3{
-  font-family:var(--serif);
-  font-weight:300;
-  font-size:2rem;
-  color:var(--champagne);
-  margin-bottom:20px;
-}
-.rsvp-success p{
-  font-family:var(--serif);
-  font-style:italic;
-  font-size:1.1rem;
-  color:rgba(250,246,240,.8);
-  line-height:1.7;
-}
+.submit-btn:hover{background:var(--champagne);color:var(--dark)}
 
 /* ============ FINAL PHOTO ============ */
 .final-photo{
@@ -963,15 +700,11 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
   background-image:url('https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg');
   background-size:cover;
   background-position:center;
-  will-change:transform;
 }
 .final-photo::after{
   content:'';
   position:absolute;inset:0;
-  background:linear-gradient(180deg,
-    rgba(44,24,16,.4) 0%,
-    rgba(44,24,16,.5) 50%,
-    rgba(44,24,16,.6) 100%);
+  background:linear-gradient(180deg, rgba(44,24,16,.4) 0%, rgba(44,24,16,.6) 100%);
 }
 .final-photo-content{
   position:relative;
@@ -980,27 +713,11 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
   color:var(--ivory);
   padding:0 24px;
 }
-.final-photo-content .big{
-  font-family:var(--serif);
-  font-weight:300;
-  letter-spacing:.3em;
-  text-transform:uppercase;
-  font-size:clamp(.8rem, 2vw, 1rem);
-  margin-bottom:30px;
-  color:var(--champagne);
-}
 .final-photo-content .names{
   font-family:var(--script);
   font-size:clamp(3rem, 9vw, 5.5rem);
   line-height:1.1;
   margin-bottom:30px;
-}
-.final-photo-content .date{
-  font-family:var(--serif);
-  font-weight:300;
-  letter-spacing:.3em;
-  font-size:1rem;
-  color:var(--champagne);
 }
 
 /* ============ FINAL MESSAGE ============ */
@@ -1009,70 +726,21 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
   text-align:center;
   padding:100px 24px 80px;
 }
-.final-msg .with-love{
-  font-family:var(--sans);
-  font-weight:300;
-  letter-spacing:.5em;
-  text-transform:uppercase;
-  font-size:.65rem;
-  color:var(--warm-brown);
-  margin-bottom:30px;
-}
 .final-msg .names{
   font-family:var(--script);
   font-size:clamp(2.5rem, 7vw, 4rem);
   color:var(--warm-brown);
   margin-bottom:30px;
 }
-.final-msg .date{
-  font-family:var(--serif);
-  font-weight:300;
-  letter-spacing:.3em;
-  font-size:1rem;
-  color:var(--soft-dark);
-  margin-bottom:40px;
-}
-.final-msg .heart{
-  display:inline-block;
-  width:8px;height:8px;
-  background:var(--gold);
-  transform:rotate(45deg);
-  position:relative;
-}
-.final-msg .heart::before,
-.final-msg .heart::after{
-  content:'';
-  position:absolute;
-  width:8px;height:8px;
-  background:var(--gold);
-  border-radius:50%;
-}
-.final-msg .heart::before{top:-4px;left:0}
-.final-msg .heart::after{left:4px;top:0}
-
-/* ============ LEAFLET OVERRIDES ============ */
-.leaflet-container{background:var(--cream)!important;font-family:var(--serif)!important}
-.leaflet-control-attribution{display:none!important}
-.leaflet-control-zoom a{
-  background:var(--ivory)!important;
-  color:var(--warm-brown)!important;
-  border-color:rgba(201,169,110,.3)!important;
-}
-.leaflet-popup-content-wrapper{
-  background:var(--ivory)!important;
-  color:var(--dark)!important;
-  border-radius:0!important;
-  box-shadow:0 4px 20px rgba(44,24,16,.15)!important;
-  font-family:var(--serif)!important;
-}
-.leaflet-popup-tip{background:var(--ivory)!important}
-.leaflet-popup-content{margin:15px 20px!important;font-size:1rem!important}
-
-/* ============ UTILITIES ============ */
-.text-center{text-align:center}
 </style>
 </head>
-<body>
+<body class="lang-en">
+
+<!-- ============ LANGUAGE SWITCHER ============ -->
+<div class="lang-switch">
+  <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+  <button class="lang-btn" onclick="setLanguage('am')">AM</button>
+</div>
 
 <!-- ============ MUSIC BUTTON ============ -->
 <button class="music-btn" id="musicBtn" aria-label="Toggle music">
@@ -1086,17 +754,32 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <section class="hero">
   <div class="hero-bg"></div>
   <div class="hero-content">
-    <div class="hero-pre">The Wedding of</div>
+    <div class="hero-pre">
+      <span data-lang="en">The Wedding of</span>
+      <span data-lang="am">Հարսանեկան հրավեր</span>
+    </div>
     <h1 class="hero-names display">
-      <span class="hero-name first">Anna</span>
+      <span class="hero-name first">
+        <span data-lang="en">Anna</span>
+        <span data-lang="am">Աննա</span>
+      </span>
       <span class="hero-amp">&</span>
-      <span class="hero-name last">Davit</span>
+      <span class="hero-name last">
+        <span data-lang="en">Davit</span>
+        <span data-lang="am">Դավիթ</span>
+      </span>
     </h1>
-    <div class="hero-tagline">We are getting married</div>
+    <div class="hero-tagline">
+      <span data-lang="en">We are getting married</span>
+      <span data-lang="am">Մենք ամուսնանում ենք</span>
+    </div>
     <div class="hero-date">11 <span class="sep">•</span> 11 <span class="sep">•</span> 2026</div>
   </div>
   <div class="scroll-indicator">
-    <div class="label">Scroll</div>
+    <div class="label">
+      <span data-lang="en">Scroll</span>
+      <span data-lang="am">Թերթել</span>
+    </div>
     <div class="line"></div>
   </div>
 </section>
@@ -1104,33 +787,45 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <!-- ============ INTRO ============ -->
 <section class="intro section-pad">
   <div class="container">
-    <div class="reveal">
+    <div class="reveal in">
       <div class="section-head">
-        <div class="section-label">Together with our families</div>
+        <div class="section-label">
+          <span data-lang="en">Together with our families</span>
+          <span data-lang="am">Մեր ընտանիքների հետ միասին</span>
+        </div>
         <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
       </div>
       <p class="intro-text">
-        We invite you to celebrate the beginning of our forever.<br>
-        Two hearts, one journey, and a love story that started with a single glance.
+        <span data-lang="en">We invite you to celebrate the beginning of our forever.<br>Two hearts, one journey, and a love story that started with a single glance.</span>
+        <span data-lang="am">Սիրով հրավիրում ենք Ձեզ կիսելու մեր միասնական կյանքի սկիզբը:<br>Երկու սիրտ, մեկ ճանապարհ և սիրո պատմություն, որն սկսվեց միայն մեկ հայացքից:</span>
       </p>
-      <div class="intro-names script">Anna & Davit</div>
+      <div class="intro-names script">
+        <span data-lang="en">Anna & Davit</span>
+        <span data-lang="am">Աննա և Դավիթ</span>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ============ CINEMATIC PHOTO ============ -->
-<section class="cinematic" data-parallax>
-  <div class="cinematic-img reveal-img"></div>
+<section class="cinematic">
+  <div class="cinematic-img"></div>
 </section>
 
 <!-- ============ SAVE THE DATE ============ -->
 <section class="save-date section-pad">
   <div class="container">
-    <div class="date-block reveal">
-      <div class="date-label">Save the Date</div>
+    <div class="date-block">
+      <div class="date-label">
+        <span data-lang="en">Save the Date</span>
+        <span data-lang="am">Պահպանեք ամսաթիվը</span>
+      </div>
       <div class="ornament" style="margin-bottom:30px"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
       <div class="date-day display">11</div>
-      <div class="date-month">November</div>
+      <div class="date-month">
+        <span data-lang="en">November</span>
+        <span data-lang="am">Նոյեմբեր</span>
+      </div>
       <div class="date-year">2026</div>
       <div class="ornament" style="margin-top:40px"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
@@ -1140,27 +835,45 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <!-- ============ COUNTDOWN ============ -->
 <section class="countdown section-pad">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Counting the moments</div>
-      <h2 class="section-title">Until We Say I Do</h2>
+    <div class="section-head">
+      <div class="section-label">
+        <span data-lang="en">Counting the moments</span>
+        <span data-lang="am">Հաշվում ենք րոպեները</span>
+      </div>
+      <h2 class="section-title">
+        <span data-lang="en">Until We Say I Do</span>
+        <span data-lang="am">Մինչ մեր «Այո»-ն</span>
+      </h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
-    <div class="countdown-grid reveal" id="countdownGrid">
+    <div class="countdown-grid" id="countdownGrid">
       <div class="cd-box">
         <div class="cd-num" id="cdDays">000</div>
-        <div class="cd-label">Days</div>
+        <div class="cd-label">
+          <span data-lang="en">Days</span>
+          <span data-lang="am">Օր</span>
+        </div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdHours">00</div>
-        <div class="cd-label">Hours</div>
+        <div class="cd-label">
+          <span data-lang="en">Hours</span>
+          <span data-lang="am">Ժամ</span>
+        </div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdMins">00</div>
-        <div class="cd-label">Minutes</div>
+        <div class="cd-label">
+          <span data-lang="en">Minutes</span>
+          <span data-lang="am">Րոպե</span>
+        </div>
       </div>
       <div class="cd-box">
         <div class="cd-num" id="cdSecs">00</div>
-        <div class="cd-label">Seconds</div>
+        <div class="cd-label">
+          <span data-lang="en">Seconds</span>
+          <span data-lang="am">Վայրկյան</span>
+        </div>
       </div>
     </div>
   </div>
@@ -1169,39 +882,43 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <!-- ============ OUR STORY ============ -->
 <section class="story section-pad">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Our Journey</div>
-      <h2 class="section-title script">Our Story</h2>
+    <div class="section-head">
+      <div class="section-label">
+        <span data-lang="en">Our Journey</span>
+        <span data-lang="am">Մեր Ուղին</span>
+      </div>
+      <h2 class="section-title script">
+        <span data-lang="en">Our Story</span>
+        <span data-lang="am">Մեր Պատմությունը</span>
+      </h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
-    <div class="story-item reveal">
-      <div class="story-img-wrap reveal-mask">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Anna" loading="lazy">
+    <div class="story-item">
+      <div class="story-img-wrap">
+        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Anna">
       </div>
       <div class="story-text">
-        <span class="story-num">Chapter One</span>
-        It started with a look — a moment that felt like the world had paused just for us. From that day forward, nothing was ever the same.
+        <span class="story-num">
+          <span data-lang="en">Chapter One</span>
+          <span data-lang="am">Գլուխ Առաջին</span>
+        </span>
+        <span data-lang="en">It started with a look — a moment that felt like the world had paused just for us. From that day forward, nothing was ever the same.</span>
+        <span data-lang="am">Ամեն ինչ սկսվեց մի հայացքից՝ մի պահ, երբ թվաց, թե աշխարհը կանգ է առել միայն մեզ համար: Այդ օրվանից ի վեր ամեն ինչ փոխվեց:</span>
       </div>
     </div>
 
-    <div class="story-item reverse reveal">
-      <div class="story-img-wrap reveal-mask">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Together" loading="lazy">
+    <div class="story-item reverse">
+      <div class="story-img-wrap">
+        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Together">
       </div>
       <div class="story-text">
-        <span class="story-num">Chapter Two</span>
-        Two different stories, two different worlds — and yet, somehow, they became one. Every laugh, every silence, every shared dream brought us closer.
-      </div>
-    </div>
-
-    <div class="story-item reveal">
-      <div class="story-img-wrap reveal-mask">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg" alt="Davit" loading="lazy">
-      </div>
-      <div class="story-text">
-        <span class="story-num">Chapter Three</span>
-        And now we begin our forever. On the 11th of November, 2026, we invite you to witness the next chapter of our love story.
+        <span class="story-num">
+          <span data-lang="en">Chapter Two</span>
+          <span data-lang="am">Գլուխ Երկրորդ</span>
+        </span>
+        <span data-lang="en">Two different stories, two different worlds — and yet, somehow, they became one. Every laugh, every silence brought us closer.</span>
+        <span data-lang="am">Երկու տարբեր պատմություններ, երկու աշխարհ, որոնք դարձան մեկ ամբողջություն: Ամեն ժպիտ ու լռություն մեզ ավելի մոտեցրին:</span>
       </div>
     </div>
   </div>
@@ -1210,43 +927,60 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <!-- ============ WEDDING DETAILS ============ -->
 <section class="details section-pad">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">The Celebration</div>
-      <h2 class="section-title">The Wedding Day</h2>
+    <div class="section-head">
+      <div class="section-label">
+        <span data-lang="en">The Celebration</span>
+        <span data-lang="am">Տոնակատարություն</span>
+      </div>
+      <h2 class="section-title">
+        <span data-lang="en">The Wedding Day</span>
+        <span data-lang="am">Հարսանեկան Օրը</span>
+      </h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
     <div class="details-grid">
-      <div class="detail-card reveal">
-        <div class="detail-type">Ceremony</div>
-        <div class="detail-title">Church Ceremony</div>
-        <div class="detail-time">2:00 PM</div>
-        <div class="detail-address">
-          Holy Cathedral<br>
-          Yerevan, Armenia
+      <!-- Ceremony Card -->
+      <div class="detail-card">
+        <div class="detail-type">
+          <span data-lang="en">Ceremony</span>
+          <span data-lang="am">Պսակադրություն</span>
         </div>
-        <div class="detail-map" id="mapChurch"></div>
-        <a href="https://maps.google.com/?q=40.1812,44.5051" target="_blank" rel="noopener" class="map-btn">View on Map</a>
+        <div class="detail-title">
+          <span data-lang="en">Saint Hripsime Church</span>
+          <span data-lang="am">Սուրբ Հռիփսիմե Եկեղեցի</span>
+        </div>
+        <div class="detail-time">15:00</div>
+        <div class="detail-address">
+          <span data-lang="en">Echmiadzin, Armenia</span>
+          <span data-lang="am">Էջմիածին, Հայաստան</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="map-btn">
+          <span data-lang="en">View Map</span>
+          <span data-lang="am">Քարտեզ</span>
+        </a>
       </div>
 
-      <div class="detail-card reveal">
-        <div class="detail-type">Reception</div>
-        <div class="detail-title">Wedding Reception</div>
-        <div class="detail-time">Evening</div>
-        <div class="detail-address">
-          Restaurant Venue<br>
-          Yerevan, Armenia
+      <!-- Reception Card -->
+      <div class="detail-card">
+        <div class="detail-type">
+          <span data-lang="en">Reception</span>
+          <span data-lang="am">Հարսանյաց Հանդես</span>
         </div>
-        <div class="detail-map" id="mapRestaurant"></div>
-        <a href="https://maps.google.com/?q=40.1772,44.5021" target="_blank" rel="noopener" class="map-btn">View on Map</a>
+        <div class="detail-title">
+          <span data-lang="en">Grand Hall</span>
+          <span data-lang="am">Ռեստորանային Համալիր</span>
+        </div>
+        <div class="detail-time">18:00</div>
+        <div class="detail-address">
+          <span data-lang="en">Yerevan, Armenia</span>
+          <span data-lang="am">Երևան, Հայաստան</span>
+        </div>
+        <a href="https://maps.google.com" target="_blank" class="map-btn">
+          <span data-lang="en">View Map</span>
+          <span data-lang="am">Քարտեզ</span>
+        </a>
       </div>
-    </div>
-
-    <div style="margin-top:60px; text-align:center" class="reveal">
-      <div class="detail-type" style="margin-bottom:15px">Morning Celebrations</div>
-      <p style="font-family:var(--serif); font-style:italic; font-size:1.15rem; color:var(--soft-dark); max-width:500px; margin:0 auto; line-height:1.7">
-        The day begins at the Bride's home, followed by gatherings at the Groom's home, before we all come together for the sacred ceremony.
-      </p>
     </div>
   </div>
 </section>
@@ -1254,581 +988,186 @@ textarea.form-input{resize:vertical;min-height:80px;font-family:var(--serif)}
 <!-- ============ TIMELINE ============ -->
 <section class="timeline-section section-pad">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Program</div>
-      <h2 class="section-title">Wedding Timeline</h2>
+    <div class="section-head">
+      <div class="section-label">
+        <span data-lang="en">Schedule</span>
+        <span data-lang="am">Ժամանակացույց</span>
+      </div>
+      <h2 class="section-title">
+        <span data-lang="en">Order of Events</span>
+        <span data-lang="am">Օրվա Ծրագիրը</span>
+      </h2>
       <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
 
     <div class="timeline">
-      <div class="tl-item reveal">
-        <div class="tl-time">Morning</div>
+      <div class="tl-item">
+        <div class="tl-time">15:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">Bride's Home</div>
+        <div class="tl-text">
+          <span data-lang="en">Holy Ceremony</span>
+          <span data-lang="am">Պսակադրության Արարողություն</span>
+        </div>
       </div>
-      <div class="tl-item reveal">
-        <div class="tl-time">Morning</div>
-        <div class="tl-dot"></div>
-        <div class="tl-text">Groom's Home</div>
-      </div>
-      <div class="tl-item reveal">
-        <div class="tl-time">14:00</div>
-        <div class="tl-dot"></div>
-        <div class="tl-text">Church Ceremony</div>
-      </div>
-      <div class="tl-item reveal">
+      <div class="tl-item">
         <div class="tl-time">17:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">Cocktails</div>
+        <div class="tl-text">
+          <span data-lang="en">Welcome Cocktail</span>
+          <span data-lang="am">Հյուրասիրություն</span>
+        </div>
       </div>
-      <div class="tl-item reveal">
-        <div class="tl-time">18:30</div>
+      <div class="tl-item">
+        <div class="tl-time">18:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">Dinner</div>
+        <div class="tl-text">
+          <span data-lang="en">Gala Dinner</span>
+          <span data-lang="am">Հարսանեկան Ճաշկերույթ</span>
+        </div>
       </div>
-      <div class="tl-item reveal">
-        <div class="tl-time">20:00</div>
+      <div class="tl-item">
+        <div class="tl-time">22:00</div>
         <div class="tl-dot"></div>
-        <div class="tl-text">First Dance</div>
-      </div>
-      <div class="tl-item reveal">
-        <div class="tl-time">21:00</div>
-        <div class="tl-dot"></div>
-        <div class="tl-text">Party</div>
+        <div class="tl-text">
+          <span data-lang="en">Wedding Cake</span>
+          <span data-lang="am">Տորթի Կտրում</span>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ============ DRESS CODE ============ -->
-<section class="dresscode section-pad">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Attire</div>
-      <h2 class="section-title">Dress Code</h2>
-      <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
-    </div>
-    <p class="dresscode-text reveal">
-      We would love to see you in elegant evening attire, in tones that complement the warmth of our celebration.
-    </p>
-    <div class="color-swatches reveal">
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#0a0a0a"></div>
-        <div class="swatch-label">Black</div>
-      </div>
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#d9c5a0"></div>
-        <div class="swatch-label">Beige</div>
-      </div>
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#e8d5b7"></div>
-        <div class="swatch-label">Champagne</div>
-      </div>
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#8b6f47"></div>
-        <div class="swatch-label">Brown</div>
-      </div>
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#6b705c"></div>
-        <div class="swatch-label">Olive</div>
-      </div>
-      <div class="swatch">
-        <div class="swatch-circle" style="background:#faf6f0"></div>
-        <div class="swatch-label">Cream</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ GALLERY ============ -->
-<section class="gallery section-pad">
-  <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Moments</div>
-      <h2 class="section-title script">Gallery</h2>
-      <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
-    </div>
-
-    <div class="gallery-grid">
-      <div class="gal-item gal-1 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Gallery 1" loading="lazy">
-      </div>
-      <div class="gal-item gal-2 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Gallery 2" loading="lazy">
-      </div>
-      <div class="gal-item gal-3 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg" alt="Gallery 3" loading="lazy">
-      </div>
-      <div class="gal-item gal-4 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg" alt="Gallery 4" loading="lazy">
-      </div>
-      <div class="gal-item gal-5 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg" alt="Gallery 5" loading="lazy">
-      </div>
-      <div class="gal-item gal-6 reveal-mask" data-img="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg">
-        <img src="https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg" alt="Gallery 6" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ LIGHTBOX ============ -->
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">✕</button>
-  <img id="lightboxImg" src="" alt="">
-</div>
-
-<!-- ============ QUOTE ============ -->
-<section class="quote">
-  <div class="reveal">
-    <p class="quote-text">
-      "Whatever our souls are made of,<br>
-      his and mine are the same."
-    </p>
-    <div class="quote-author">— Emily Brontë</div>
   </div>
 </section>
 
 <!-- ============ RSVP ============ -->
-<section class="rsvp section-pad" id="rsvpSection">
+<section class="rsvp section-pad">
   <div class="container">
-    <div class="section-head reveal">
-      <div class="section-label">Your Response</div>
-      <h2 class="section-title">Will You Join Us?</h2>
-      <div class="ornament"><span class="line" style="background:var(--champagne)"></span><span class="dot" style="border-color:var(--champagne)"></span><span class="line" style="background:var(--champagne)"></span></div>
+    <div class="section-head">
+      <div class="section-label">
+        <span data-lang="en">RSVP</span>
+        <span data-lang="am">Հաստատում</span>
+      </div>
+      <h2 class="section-title">
+        <span data-lang="en">Are You Attending?</span>
+        <span data-lang="am">Կսպասենք Ձեզ</span>
+      </h2>
+      <div class="ornament"><span class="line"></span><span class="dot"></span><span class="line"></span></div>
     </div>
-    <p class="rsvp-intro reveal">
-      We would be honored to celebrate this special day with you. Please let us know if you can join our celebration.
+
+    <p class="rsvp-intro">
+      <span data-lang="en">Please respond by October 1, 2026 to help us prepare for our special day.</span>
+      <span data-lang="am">Խնդրում ենք հաստատել Ձեր մասնակցությունը մինչև 2026թ. հոկտեմբերի 1-ը:</span>
     </p>
 
-    <form class="rsvp-form reveal" id="rsvpForm">
+    <form class="rsvp-form" onsubmit="event.preventDefault(); alert('Thank you!');">
       <div class="form-group">
-        <label class="form-label">Your Name</label>
-        <input type="text" class="form-input" id="rsvpName" placeholder="Enter your full name" required>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Whose side are you from?</label>
-        <div class="form-options" id="rsvpSide">
-          <div class="form-option" data-value="Anna (Bride)">Anna — Bride</div>
-          <div class="form-option" data-value="Davit (Groom)">Davit — Groom</div>
-          <div class="form-option" data-value="Both sides">Both Sides</div>
-        </div>
+        <label class="form-label">
+          <span data-lang="en">Your Name</span>
+          <span data-lang="am">Ձեր Անունը</span>
+        </label>
+        <input type="text" class="form-input" required>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Will you attend?</label>
-        <div class="form-options" id="rsvpAttend">
-          <div class="form-option" data-value="Yes">✓ Joyfully Accept</div>
-          <div class="form-option" data-value="No">✕ Regretfully Decline</div>
+        <label class="form-label">
+          <span data-lang="en">Will you join us?</span>
+          <span data-lang="am">Մասնակցելու եք</span>
+        </label>
+        <div class="form-options">
+          <div class="form-option selected" onclick="selectOpt(this)">
+            <span data-lang="en">Joyfully Accept</span>
+            <span data-lang="am">Սիրով կգամ</span>
+          </div>
+          <div class="form-option" onclick="selectOpt(this)">
+            <span data-lang="en">Regretfully Decline</span>
+            <span data-lang="am">Ցավոք, չեմ կարող</span>
+          </div>
         </div>
       </div>
 
-      <div class="form-group" id="guestGroup" style="display:none">
-        <label class="form-label">Number of Guests</label>
-        <div class="guest-selector" id="rsvpGuests">
-          <div class="guest-num" data-value="1">1</div>
-          <div class="guest-num" data-value="2">2</div>
-          <div class="guest-num" data-value="3">3</div>
-          <div class="guest-num" data-value="4">4</div>
-          <div class="guest-num" data-value="5">5</div>
-          <div class="guest-num" data-value="6">6</div>
-        </div>
-      </div>
-
-      <div class="form-group" id="messageGroup" style="display:none">
-        <label class="form-label">Message for the Couple <span style="opacity:.5; text-transform:none; letter-spacing:0; font-size:.6rem">(optional)</span></label>
-        <textarea class="form-input" id="rsvpMessage" placeholder="Share your wishes..."></textarea>
-      </div>
-
-      <button type="submit" class="submit-btn" id="submitBtn">Send RSVP</button>
+      <button type="submit" class="submit-btn">
+        <span data-lang="en">Send Confirmation</span>
+        <span data-lang="am">Ուղարկել</span>
+      </button>
     </form>
-
-    <div class="rsvp-success" id="rsvpSuccess">
-      <h3>Thank You</h3>
-      <p id="successText">Your response has been received. We look forward to celebrating with you. 🤍</p>
-    </div>
   </div>
 </section>
 
 <!-- ============ FINAL PHOTO ============ -->
-<section class="final-photo" data-parallax>
+<section class="final-photo">
   <div class="final-photo-bg"></div>
-  <div class="final-photo-content reveal">
-    <div class="big">We Can't Wait</div>
-    <div class="names script">Anna & Davit</div>
-    <div class="date">11 · 11 · 2026</div>
+  <div class="final-photo-content">
+    <div class="names script">
+      <span data-lang="en">Anna & Davit</span>
+      <span data-lang="am">Աննա և Դավիթ</span>
+    </div>
   </div>
 </section>
 
 <!-- ============ FINAL MESSAGE ============ -->
-<section class="final-msg">
-  <div class="with-love">With Love</div>
-  <div class="names script">Anna & Davit</div>
-  <div class="date">11 · 11 · 2026</div>
-  <div class="heart"></div>
-</section>
+<footer class="final-msg">
+  <div class="names script">
+    <span data-lang="en">See you there!</span>
+    <span data-lang="am">Սպասում ենք Ձեզ</span>
+  </div>
+</footer>
 
-<script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/* ============================================================
-   WEDDING CONFIGURATION — edit this object to customize
-   ============================================================ */
-const wedding = {
-  bride: "Anna",
-  groom: "Davit",
-  date: "2026-11-11T14:00:00",
-  ceremonyVenue: "Holy Cathedral",
-  ceremonyAddress: "Yerevan, Armenia",
-  ceremonyCoords: [40.1812, 44.5051],
-  ceremonyMap: "https://maps.google.com/?q=40.1812,44.5051",
-  receptionVenue: "Restaurant Venue",
-  receptionAddress: "Yerevan, Armenia",
-  receptionCoords: [40.1772, 44.5021],
-  receptionMap: "https://maps.google.com/?q=40.1772,44.5021",
-  telegramPhone: "+37498354255",
-  telegramBotToken: "YOUR_BOT_TOKEN_HERE",
-  telegramChatId: "YOUR_CHAT_ID_HERE"
-};
+// Switch language between EN and AM
+function setLanguage(lang) {
+  document.body.className = 'lang-' + lang;
+  const buttons = document.querySelectorAll('.lang-btn');
+  buttons.forEach(btn => {
+    if(btn.textContent.toLowerCase() === lang) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
 
-const photos = {
-  hero: "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg",
-  cinematic: "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg",
-  final: "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg",
-  story: [
-    "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.13.jpg",
-    "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.32.jpg",
-    "https://raw.githubusercontent.com/elina-ab/dav-ann/main/2026-10-22%2012.17.47.jpg"
-  ]
-};
+// Simple option selector script for RSVP
+function selectOpt(element) {
+  const siblings = element.parentNode.children;
+  for(let sibling of siblings) {
+    sibling.classList.remove('selected');
+  }
+  element.classList.add('selected');
+}
 
-/* ============================================================
-   MUSIC CONTROL
-   ============================================================ */
+// Music player logic
 const musicBtn = document.getElementById('musicBtn');
-const musicIcon = document.getElementById('musicIcon');
 const bgMusic = document.getElementById('bgMusic');
-let musicPlaying = false;
-
-const playIcon = '<path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/>';
-const pauseIcon = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
-
-function toggleMusic(){
-  if(musicPlaying){
-    bgMusic.pause();
-    musicIcon.innerHTML = playIcon;
-    musicBtn.classList.remove('playing');
-  } else {
-    bgMusic.volume = 0.4;
-    bgMusic.play().then(()=>{
-      musicIcon.innerHTML = pauseIcon;
+if(musicBtn && bgMusic) {
+  musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+      bgMusic.play();
       musicBtn.classList.add('playing');
-    }).catch(()=>{});
-  }
-  musicPlaying = !musicPlaying;
-}
-musicBtn.addEventListener('click', toggleMusic);
-
-// Try to start music on first user interaction
-let musicStarted = false;
-function tryStartMusic(){
-  if(musicStarted) return;
-  musicStarted = true;
-  bgMusic.volume = 0.4;
-  bgMusic.play().then(()=>{
-    musicPlaying = true;
-    musicIcon.innerHTML = pauseIcon;
-    musicBtn.classList.add('playing');
-  }).catch(()=>{
-    musicStarted = false;
-  });
-}
-document.addEventListener('click', tryStartMusic, {once:false});
-document.addEventListener('touchstart', tryStartMusic, {once:false});
-
-/* ============================================================
-   SCROLL REVEAL
-   ============================================================ */
-const revealObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('in');
-      revealObserver.unobserve(entry.target);
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove('playing');
     }
   });
-}, {threshold:0.15, rootMargin:'0px 0px -50px 0px'});
-
-document.querySelectorAll('.reveal, .reveal-img, .reveal-mask').forEach(el=>{
-  revealObserver.observe(el);
-});
-
-/* ============================================================
-   PARALLAX
-   ============================================================ */
-const parallaxSections = document.querySelectorAll('[data-parallax]');
-let ticking = false;
-
-function updateParallax(){
-  const scrollY = window.pageYOffset;
-  parallaxSections.forEach(section=>{
-    const rect = section.getBoundingClientRect();
-    const img = section.querySelector('[class$="-bg"], [class$="-img"]');
-    if(!img) return;
-    if(rect.bottom < 0 || rect.top > window.innerHeight) return;
-    const progress = (rect.top + rect.height) / (window.innerHeight + rect.height);
-    const translate = (progress - 0.5) * 60;
-    img.style.transform = `translate3d(0, ${translate}px, 0) scale(1.08)`;
-  });
-  ticking = false;
 }
 
-window.addEventListener('scroll', ()=>{
-  if(!ticking){
-    requestAnimationFrame(updateParallax);
-    ticking = true;
+// Countdown timer script
+const targetDate = new Date('2026-11-11T15:00:00').getTime();
+function updateCountdown() {
+  const now = new Date().getTime();
+  const diff = targetDate - now;
+
+  if (diff > 0) {
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((diff % (1000 * 60)) / 1000);
+
+    document.getElementById('cdDays').textContent = String(days).padStart(3, '0');
+    document.getElementById('cdHours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cdMins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('cdSecs').textContent = String(secs).padStart(2, '0');
   }
-}, {passive:true});
-
-/* ============================================================
-   COUNTDOWN
-   ============================================================ */
-const weddingDate = new Date(wedding.date);
-const cdDays = document.getElementById('cdDays');
-const cdHours = document.getElementById('cdHours');
-const cdMins = document.getElementById('cdMins');
-const cdSecs = document.getElementById('cdSecs');
-const countdownGrid = document.getElementById('countdownGrid');
-
-function updateCountdown(){
-  const now = new Date();
-  const diff = weddingDate - now;
-
-  if(diff <= 0){
-    countdownGrid.innerHTML = '<div class="countdown-ended" style="grid-column:1/-1">Today is the day 🤍</div>';
-    return;
-  }
-
-  const d = Math.floor(diff / (1000*60*60*24));
-  const h = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-  const m = Math.floor((diff % (1000*60*60)) / (1000*60));
-  const s = Math.floor((diff % (1000*60)) / 1000);
-
-  cdDays.textContent = String(d).padStart(3,'0');
-  cdHours.textContent = String(h).padStart(2,'0');
-  cdMins.textContent = String(m).padStart(2,'0');
-  cdSecs.textContent = String(s).padStart(2,'0');
 }
-updateCountdown();
 setInterval(updateCountdown, 1000);
-
-/* ============================================================
-   MAPS
-   ============================================================ */
-function initMaps(){
-  const goldIcon = L.divIcon({
-    className:'',
-    html:'<div style="width:16px;height:16px;background:#c9a96e;border:2px solid #faf6f0;border-radius:50%;box-shadow:0 0 10px rgba(201,169,110,.5);"></div>',
-    iconSize:[16,16],
-    iconAnchor:[8,8]
-  });
-
-  // Church map
-  const mapChurch = L.map('mapChurch',{zoomControl:true,attributionControl:false,scrollWheelZoom:false});
-  mapChurch.setView(wedding.ceremonyCoords, 15);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(mapChurch);
-  L.marker(wedding.ceremonyCoords,{icon:goldIcon}).addTo(mapChurch)
-    .bindPopup(`<div style="text-align:center"><strong>${wedding.ceremonyVenue}</strong><br><em>2:00 PM</em></div>`);
-
-  // Restaurant map
-  const mapRestaurant = L.map('mapRestaurant',{zoomControl:true,attributionControl:false,scrollWheelZoom:false});
-  mapRestaurant.setView(wedding.receptionCoords, 15);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(mapRestaurant);
-  L.marker(wedding.receptionCoords,{icon:goldIcon}).addTo(mapRestaurant)
-    .bindPopup(`<div style="text-align:center"><strong>${wedding.receptionVenue}</strong><br><em>Evening</em></div>`);
-
-  setTimeout(()=>{
-    mapChurch.invalidateSize();
-    mapRestaurant.invalidateSize();
-  }, 500);
-}
-
-// Initialize maps when details section becomes visible
-const detailsSection = document.querySelector('.details');
-const mapsObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      initMaps();
-      mapsObserver.disconnect();
-    }
-  });
-},{threshold:0.1});
-mapsObserver.observe(detailsSection);
-
-/* ============================================================
-   LIGHTBOX
-   ============================================================ */
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxClose = document.getElementById('lightboxClose');
-
-document.querySelectorAll('.gal-item').forEach(item=>{
-  item.addEventListener('click',()=>{
-    const src = item.dataset.img;
-    lightboxImg.src = src;
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  });
-});
-
-function closeLightbox(){
-  lightbox.classList.remove('open');
-  document.body.style.overflow = '';
-}
-lightboxClose.addEventListener('click', closeLightbox);
-lightbox.addEventListener('click', (e)=>{
-  if(e.target === lightbox) closeLightbox();
-});
-document.addEventListener('keydown',(e)=>{
-  if(e.key === 'Escape' && lightbox.classList.contains('open')) closeLightbox();
-});
-
-/* ============================================================
-   RSVP FORM
-   ============================================================ */
-const rsvpForm = document.getElementById('rsvpForm');
-const rsvpSuccess = document.getElementById('rsvpSuccess');
-const successText = document.getElementById('successText');
-const guestGroup = document.getElementById('guestGroup');
-const messageGroup = document.getElementById('messageGroup');
-
-const rsvpData = {
-  name:'', side:'', attend:'', guests:'', message:''
-};
-
-// Option selection
-function setupOptions(containerId, dataKey, callback){
-  const container = document.getElementById(containerId);
-  container.querySelectorAll('.form-option').forEach(opt=>{
-    opt.addEventListener('click',()=>{
-      container.querySelectorAll('.form-option').forEach(o=>o.classList.remove('selected'));
-      opt.classList.add('selected');
-      rsvpData[dataKey] = opt.dataset.value;
-      if(callback) callback(opt.dataset.value);
-    });
-  });
-}
-
-setupOptions('rsvpSide','side');
-setupOptions('rsvpAttend','attend',(val)=>{
-  if(val === 'Yes'){
-    guestGroup.style.display = 'block';
-    messageGroup.style.display = 'block';
-  } else {
-    guestGroup.style.display = 'none';
-    messageGroup.style.display = 'none';
-  }
-});
-
-// Guest number selection
-document.querySelectorAll('.guest-num').forEach(num=>{
-  num.addEventListener('click',()=>{
-    document.querySelectorAll('.guest-num').forEach(n=>n.classList.remove('selected'));
-    num.classList.add('selected');
-    rsvpData.guests = num.dataset.value;
-  });
-});
-
-// Form submission
-rsvpForm.addEventListener('submit', async (e)=>{
-  e.preventDefault();
-
-  const name = document.getElementById('rsvpName').value.trim();
-  if(!name){
-    document.getElementById('rsvpName').style.borderBottomColor = '#c0392b';
-    return;
-  }
-  if(!rsvpData.side || !rsvpData.attend){
-    alert('Please complete all required fields.');
-    return;
-  }
-  if(rsvpData.attend === 'Yes' && !rsvpData.guests){
-    alert('Please select number of guests.');
-    return;
-  }
-
-  rsvpData.name = name;
-  rsvpData.message = document.getElementById('rsvpMessage').value.trim();
-
-  const submitBtn = document.getElementById('submitBtn');
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending...';
-
-  // Send to Telegram
-  await sendToTelegram();
-
-  // Show success
-  rsvpForm.style.display = 'none';
-  if(rsvpData.attend === 'Yes'){
-    successText.textContent = `Thank you, ${name}. Your response has been received. We look forward to celebrating with you. 🤍`;
-  } else {
-    successText.textContent = `Thank you for letting us know, ${name}. We will miss you, but you are always in our hearts. 🤍`;
-  }
-  rsvpSuccess.classList.add('show');
-
-  // Scroll to success
-  setTimeout(()=>{
-    rsvpSuccess.scrollIntoView({behavior:'smooth', block:'center'});
-  }, 200);
-});
-
-/* ============================================================
-   TELEGRAM INTEGRATION
-   ============================================================ */
-async function sendToTelegram(){
-  const token = wedding.telegramBotToken;
-  const chatId = wedding.telegramChatId;
-
-  // If not configured, just log
-  if(token === 'YOUR_BOT_TOKEN_HERE' || chatId === 'YOUR_CHAT_ID_HERE'){
-    console.log('RSVP Data:', rsvpData);
-    console.log('Configure telegramBotToken and telegramChatId in the wedding config to enable Telegram notifications.');
-    return;
-  }
-
-  const message =
-`💒 *NEW WEDDING RSVP* 💒
-━━━━━━━━━━━━━━━━━━
-
-👤 *Name:* ${rsvpData.name}
-💍 *Side:* ${rsvpData.side}
-${rsvpData.attend === 'Yes' ? `✅ *Attending:* Yes` : `❌ *Attending:* No`}
-${rsvpData.guests ? `👥 *Guests:* ${rsvpData.guests}` : ''}
-${rsvpData.message ? `💌 *Message:* ${rsvpData.message}` : ''}
-
-━━━━━━━━━━━━━━━━━━
-📅 Wedding: 11.11.2026
-💛 ${wedding.bride} & ${wedding.groom}`;
-
-  try{
-    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        chat_id: chatId,
-        text: message,
-        parse_mode:'Markdown'
-      })
-    });
-    if(!res.ok) console.log('Telegram send failed');
-  }catch(err){
-    console.log('Telegram error:', err);
-  }
-}
-
-/* ============================================================
-   INITIAL PARALLAX
-   ============================================================ */
-updateParallax();
+updateCountdown();
 </script>
 </body>
 </html>
